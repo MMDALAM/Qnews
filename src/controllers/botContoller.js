@@ -30,6 +30,7 @@ exports.bots = async (req,res,next)=>{
                 console.log('Title:', title);
                 console.log('Content:\n', text);
 
+                //بازگشت 
                 return res.status(200).json({text})
         
     
