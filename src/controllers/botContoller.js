@@ -1,66 +1,39 @@
-const { newsModel } = require("../models/news")
-const axios = require('axios');
-const cheerio = require('cheerio');
-exports.bots = async (req,res,next)=>{
-    try {
-                // URL صفحه مورد نظر
-                const url = 'https://thequantuminsider.com/wp-content/uploads/2024/10/2024-Q3-TQI-Quarterly-Report-vF-1.pdf'; // جایگزین با URL مناسب
+const fs = require('fs');
+const { fetchArticles, sendLinkNews } = require('../utils/function');
 
-                // بارگیری HTML
-                const { data } = await axios.get(url);
-                
-                // بارگیری محتوا با Cheerios
-                const load = cheerio.load(data);
-        
-                // استخراج عنوان
-                const title = load('h1').text();
-                const text = load('p').text();
-        
-                // // استخراج متن
-                // const paragraphs = [];
+exports.bots = async (req, res, next) => {
+  try {
+    await sendLinkNews(fetchArticles(res));
+    return res.status(200).json('فایل اخبار ساخته شدند');
+  } catch (error) {
+    next(error);
+  }
+};
 
-                // load('p').each((i, elem) => {
-                //     paragraphs.push(load(elem).text().trim());
-                // });
-        
-                // // ترکیب متن
-                // const resultText = paragraphs.join('\n\n');
-        
-                // نمایش نتایج
-                console.log('Title:', title);
-                console.log('Content:\n', text);
+exports.saveBot = async (req, res, next) => {
+  try {
+    // خواندن فایل JSON
+    fs.readFile('files/FvGZnMa.json', 'utf8', (err, data) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
 
-                return res.status(200).json({text})
-        
-    
-    } catch (error) {
-        next(error)
-    }
-}
+      // پارس کردن داده‌ها به آبجکت جاوا اسکریپت
+      const jsonData = JSON.parse(data);
 
+      // دسترسی به آبجکت 'en'
+      const enData = jsonData.en;
 
+      console.log(enData);
+    });
 
-// async function scrapeNews(url) {
-//        const { data } = await axios.get(url);
-//        const news = cheerio.load(data);
-
-//        return data;
- 
-//        // بسته به ساختار HTML صفحه، سلکتورهای مناسب را بگذارید
-//        const title = $('h1').text();  // تایتل
-//        const subject = $('.subject').text();  // موضوع
-//        const images = [];  // آرایه‌ای برای ذخیره عکس‌ها
-//        $('.image-class img').each((i, elem) => {  // سلکتور برای عکس‌ها
-//           images.push($(elem).attr('src'));
-//        });
-//        const date = $('.date-class').text();  // تاریخ
-//        const text  =$('.elementor-widget-container').text(); 
-
-//        const d = {title, text, subject, images, date}
-
-//        return d;
-
-//        // ذخیره داده‌ها در MongoDB
-//     //    const newsItem = new News({ title, subject, images, date });
-//     //    await newsItem.save();
-//  }
+    // const news = req.body;
+    // news.date = new Date();
+    // const newsModel = new News(news);
+    // await newsModel.save();
+    // return res.json(newsModel);
+  } catch (error) {
+    next(error);
+  }
+};
