@@ -5,11 +5,19 @@ const date = new Date();
 const year = date.getFullYear();
 const month = date.getMonth() + 1;
 const day = date.getDate();
+const path = require('path');
 const createError = require('http-errors');
 const randomstring = require('randomstring');
+const { newsModel } = require('../models/news');
 const baseUrl = 'https://thequantuminsider.com/category/daily/';
 const API_KEY =
   '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';
+
+function directory(year, month, day) {
+  const directory = path.join(__dirname, '..', '..', 'files', String(year), String(month), String(day));
+  fs.mkdirSync(directory, { recursive: true });
+  return directory;
+}
 
 async function sendToChatGPT(message) {
   try {
@@ -33,11 +41,11 @@ async function sendToChatGPT(message) {
   }
 }
 
-async function processNews(url) {
+async function processNews(url, id) {
   const img = await getImg(url);
 
   const message = `
-          نمونه اطلاعات خبر
+          نمونه دریافت اطلاعات خبر خلاصه بیشتر کن
           data = { 
           link: ${url},
           Image: ${img},
@@ -64,7 +72,12 @@ async function processNews(url) {
   const $ = result.replace(/```/g, '');
   const news = $.replace(/json/g, '');
 
-  fs.writeFileSync(`files/${randomstrings}.json`, news, null, 2);
+  fs.writeFileSync(`${directory(year, month, day)}/${randomstrings}.json`, news, null, 2);
+
+  const updateNews = await newsModel.findById(id);
+  updateNews.news.push(`${randomstrings}.json`);
+  updateNews.path = `${directory(year, month, day)}/`;
+  await updateNews.save();
 
   return news;
 }
@@ -74,10 +87,16 @@ async function sendLinkNews(link) {
 
   if (!links.length) throw createError.NotFound('هیج خبری در این تاریخ پیدا نشد');
 
+  const newNews = new newsModel({
+    date: `${year}/${month}/${day}`,
+    url: `${baseUrl}/${year}/${month}/${day}`,
+  });
+  await newNews.save();
+
   let i = 0;
   function printLink() {
     if (i < links.length) {
-      processNews(links[i]);
+      processNews(links[i], newNews.id);
       console.log(links[i]);
       i++;
       setTimeout(printLink, 10000);
@@ -92,16 +111,17 @@ async function getImg(url) {
     const response = await axios.get(url);
     const html = cheerio.load(response.data);
 
-    const specificImgTag = html('div.elementor-widget-container img.attachment-full').first();
+    // یافتن متا تگ og:image
+    const specificImgTag = html('meta[property="og:image"]').attr('content');
 
     // بازگرداندن لینک عکس
-    return specificImgTag.attr('src');
+    return specificImgTag;
   } catch (error) {
-    console.error('Error fetching articles:', error);
+    console.error('Error fetching image:', error);
   }
 }
 
-async function fetchArticles(res) {
+async function fetchArticles() {
   try {
     const response = await axios.get(baseUrl);
     const html = cheerio.load(response.data);
@@ -109,7 +129,7 @@ async function fetchArticles(res) {
 
     html('a').each((index, element) => {
       const link = html(element).attr('href');
-      if (link && link.includes(`/${year}/${month}/${day}`)) {
+      if (link && link.includes(`/${year}/${month}/${day < 10 ? `0${day}` : day}`)) {
         articleLinksSet.add(link);
       }
     });

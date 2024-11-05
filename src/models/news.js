@@ -2,16 +2,10 @@ const { mongoose } = require('mongoose');
 
 const newsSchema = new mongoose.Schema(
   {
-    link: String,
-    image: String,
-    TitleEn: String,
-    SummaryEn: String,
-    SubjectEn: String,
-    CountryEn: String,
-    Title: String,
-    Summary: String,
-    Subject: String,
-    Country: String,
+    url: { type: String },
+    news: [{ type: String }],
+    date: { type: String },
+    path: { type: String },
   },
   { timestamps: true }
 );
