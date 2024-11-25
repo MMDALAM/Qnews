@@ -1,9 +1,8 @@
+const botContoller = require('../../controllers/bot/botContoller');
+
 const router = require('express').Router();
-const { bots, saveBotEN, saveBotFA } = require('../../controllers/botContoller');
 
 //****BOTS****
-router.get('/', bots);
-router.get('/saveEN', saveBotEN);
-router.get('/saveFA', saveBotFA);
+router.get('/', botContoller.bots);
 
 module.exports = { botRouter: router };

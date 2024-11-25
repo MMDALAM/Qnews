@@ -1,0 +1,31 @@
+<!-- فقط بخش شمارنده برای اضافه کردن به صفحه موجود -->
+<div class="counter-card">
+    <h1 ><%= text%> </h1>
+    <div class="label">تعداد کل اخبار</div>
+    <div id="newsCounter" class="counter"></div>
+</div>
+
+<style>
+.counter-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+    margin: 20px 0;
+}
+.counter {
+    font-size: 36px;
+    color: #1a73e8;
+    font-weight: bold;
+}
+.label {
+    font-size: 16px;
+    color: #5f6368;
+    margin-bottom: 10px;
+}
+</style>
+
+<script>
+    document.getElementById('newsCounter').textContent = 5;
+</script>

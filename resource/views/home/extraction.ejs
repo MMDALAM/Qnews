@@ -1,0 +1,21 @@
+<link rel="stylesheet" href="/css/extraction.css">
+
+<div class="counter-card">
+    <h1 id="status-heading">اخبار در حال استخراج</h1>
+    <div id="status-label" class="label">لطفا منتظر بمانید</div>
+  </div>
+  
+  <script>
+    const statusLabel = document.getElementById("status-label");
+  
+    statusLabel.classList.add("blinking");
+  
+    setTimeout(() => {
+      document.getElementById("status-heading").innerText = "استخراج تکمیل شد";
+  
+      statusLabel.innerHTML = '<a href="/next-page" class="next-link"> مشاهده خبر ها </a>';
+  
+      statusLabel.classList.remove("blinking");
+    }, 1 * 60 * 1000); 
+  </script>
+  

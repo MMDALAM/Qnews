@@ -1,6 +1,9 @@
 const router = require('express').Router();
 
-const { botRouter } = require('./bot');
-router.use('/bot',botRouter)
+const { homeRouter } = require('./home');
+router.use('/', homeRouter);
 
-module.exports = { AllRouters :router }
+const { botRouter } = require('./bot');
+router.use('/bot', botRouter);
+
+module.exports = { AllRouters: router };
