@@ -1,3 +1,4 @@
+<link rel="stylesheet" media="screen" href="/css/base.css" />
 <link rel="stylesheet" href="/css/extraction.css">
 
 <div class="counter-card">
@@ -13,7 +14,7 @@
     setTimeout(() => {
       document.getElementById("status-heading").innerText = "استخراج تکمیل شد";
   
-      statusLabel.innerHTML = '<a href="/next-page" class="next-link"> مشاهده خبر ها </a>';
+      statusLabel.innerHTML = '<a href="/allNews" class="next-link"> مشاهده خبر ها </a>';
   
       statusLabel.classList.remove("blinking");
     }, 1 * 60 * 1000); 

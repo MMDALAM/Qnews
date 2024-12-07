@@ -8,11 +8,25 @@
     <link rel="stylesheet" href="/css/admin.css" />
     <link rel="stylesheet" media="print" href="/css/print.css" />
     <link rel="stylesheet" media="screen" href="/css/screen.css" />
+    <link rel="stylesheet" media="screen" href="/css/base.css" />
     <link rel="shortcut icon" href="../img/545.svg" type="image/x-icon" />
     <%- style %>
   </head>
   <body>
     <%- body %> <%- script %>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <% let sweetalert = req.flash('sweetalert'); if(sweetalert.length) { let
+      data = sweetalert[0]; %>
+      <script>
+        Swal.fire({
+            title: '<%= data.title %>',
+            text: '<%= data.message %>',
+            icon: '<%= data.icon %>',
+            showConfirmButton: <%= data.button !== null ? true : false %>,
+            confirmButtonText: '<%= data.button %>',
+            timer : <%= data.button !== null ? 'null' : data.timer %>,
+          })
+      </script>
+      <% } %>
   </body>
 </html>

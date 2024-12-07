@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نمایش اخبار  </title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" media="screen" href="/css/base.css" />
+  <style>/* استایل‌های پایه */
+    body {
+      font-family: Arial, sans-serif;
+      direction: rtl;
+      text-align: right;
+      margin: 0;
+      padding: 0;
+      background-color: #0d1117;
+      color: #fff;
+    }
+    
+    /* استایل کانتینر اخبار */
+    .news-container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .news-container h1 {
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 20px;
+      color: #007bff;
+    }
+    
+    /* استایل لیست اخبار */
+    .news-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    /* استایل هر خبر */
+    .news-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 15px;
+    }
+    
+    .news-item:last-child {
+      border-bottom: none;
+    }
+    
+    /* استایل تصویر خبر */
+    .news-item img {
+      width: 120px;
+      height: 120px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+    
+    /* استایل متن خبر */
+    .news-content {
+      flex: 1;
+    }
+    
+    .news-content h2 {
+      font-size: 1.2em;
+      margin: 0 0 10px;
+    }
+    
+    .news-content a {
+      text-decoration: none;
+      color: #007bff;
+      transition: color 0.3s;
+    }
+    
+    .news-content a:hover {
+      color: #0056b3;
+    }
+    
+    .news-content p {
+      margin: 0;
+      font-size: 0.9em;
+      color: #555;
+    }
+    </style>
+</head>
+<body>
+  <div class="news-container">
+    <h1>اخبار روز <%= date %></h1>
+    <div class="news-list">
+<% news.forEach(news => { %>
+      <div class="news-item">
+        <img src="<%= news.image %>" alt="تصویر خبر ">
+        <div class="news-content">
+          <h2><a href="/editNews/<%= news.slug %>" target="_blank"> <%= news.fa.Title %></a></h2>
+          <p><%= news.fa.Summary %></p>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+  </div>
+</body>
+</html>

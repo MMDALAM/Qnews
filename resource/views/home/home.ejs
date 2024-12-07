@@ -1,5 +1,119 @@
-<div>
-    <div>
-    <a href="http://localhost:3001/bot" style="margin: 1rem; padding: 1rem; background-color: black;color: white;">استخراج اخبار</a>
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>صفحه استخراج اخبار</title>
+  <link rel="stylesheet" media="screen" href="/css/base.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #0d1117;
+      color: #ffffff;
+      font-family: 'Roboto', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    .robot-face {
+      display: inline-block;
+      width: 150px;
+      height: 150px;
+      background-color: #1f6feb;
+      border-radius: 50%;
+      position: relative;
+      margin-bottom: 2rem;
+      box-shadow: 0 0 20px rgba(31, 111, 235, 0.8), inset 0 0 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .robot-face::before,
+    .robot-face::after {
+      content: '';
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background-color: #fff;
+      border-radius: 50%;
+      top: 35%;
+      transform: translateY(-50%);
+    }
+
+    .robot-face::before {
+      left: 25%;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+    }
+
+    .robot-face::after {
+      right: 25%;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+    }
+
+    .robot-mouth {
+      position: absolute;
+      bottom: 30%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 75px;
+      height: 20px;
+      background-color: transparent;
+      border: 3px solid #fff;
+      border-radius: 50%;
+      border-top-color: transparent;
+      /* border-right-color: transparent; */
+    }
+
+    .robot-tail {
+      position: absolute;
+      bottom: 0px;
+      left: 85%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 30px;
+      background-color: #1f6feb;
+      border-radius: 50%;
+      box-shadow: 0 0 5px rgba(31, 111, 235, 0.8);
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 1rem 2rem;
+      background-color: #1f6feb;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 1.2rem;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(31, 111, 235, 0.4);
+      transition: all 0.3s ease-in-out;
+    }
+
+    .btn:hover {
+      background-color: #3ea6ff;
+      box-shadow: 0 8px 20px rgba(62, 166, 255, 0.6);
+      transform: translateY(-5px);
+    }
+
+    .btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 3px 10px rgba(31, 111, 235, 0.6);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="robot-face">
+      <div class="robot-mouth"></div>
+      <div class="robot-tail"></div>
     </div>
-</div>
+    <a href="http://localhost:3002/bot" class="btn">استخراج اخبار</a>
+  </div>
+</body>
+</html>

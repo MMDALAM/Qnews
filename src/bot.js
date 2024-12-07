@@ -10,6 +10,10 @@ const createError = require('http-errors');
 const { AllRouters } = require('./routers/router');
 const path = require('path');
 const expressLayouts = require('express-ejs-layouts');
+const flash = require('connect-flash');
+const Helpers = require('./Helpers');
+const session = require('express-session');
+// const cookieParser = require('cookie-parser');
 
 module.exports = class Application {
   constructor() {
@@ -31,6 +35,20 @@ module.exports = class Application {
     app.set('layout extractScripts', true);
     app.set('layout extractStyles', true);
     app.set('layout', 'home/master');
+    app.use(flash());
+    // app.use(cookieParser());
+    app.use(
+      session({
+        secret: 'یک رشته رندوم و امن برای رمزنگاری',
+        resave: false,
+        saveUninitialized: false,
+      })
+    );
+
+    app.use((req, res, next) => {
+      app.locals = new Helpers(req, res).getObjects();
+      next();
+    });
   }
 
   createServer() {

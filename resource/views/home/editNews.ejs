@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ویرایش خبر</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- اضافه کردن SweetAlert2 -->
+  <link rel="stylesheet" media="screen" href="/css/base.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      direction: rtl;
+      background-color: #f3f4f6;
+      margin: 0;
+      padding: 0;
+    }
+    input {
+      font-size: .9rem !important;
+    }
+    .container {
+      max-width: 98vw;
+      margin: 2rem auto;
+      background: #ffffff;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    h3 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      color: #333;
+    }
+    .form-container {
+      display: flex !important;
+      justify-content: space-between !important;
+      gap: 1.5rem;
+    }
+    .form-column {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex: 1;
+      padding: 1.5rem;
+      background: #f9f9f9;
+      border-radius: 8px;
+      width: 45vw;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    @media (max-width: 768px) {
+      .form-container {
+        flex-direction: column;
+      }
+    }
+    .form-column h4 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: #444;
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #555;
+    }
+    .form-group textarea {
+      width: 100%;
+      height: 200px;
+      padding: 1rem;
+      font-size: 1.2rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: none;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.2rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .image-container {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .image-container img {
+      max-width: 50%;
+      border-radius: 8px;
+    }
+    .btn-container {
+      text-align: center;
+      margin-top: 2rem;
+    }
+    .btn {
+      padding: 1rem 2rem;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h3>ویرایش خبر</h3>
+
+    <!-- تصویر و لینک خبر -->
+    <div class="image-container">
+      <img src="<%= news.image %>" alt="تصویر خبر">
+      <p>
+        <a href="<%= news.link %>" target="_blank" style="text-decoration: none; color: #007bff; font-size: 1.2rem;">لینک خبر</a>
+      </p>
+    </div>
+
+
+    <!-- فرم ویرایش -->
+    <form id="newsForm" class="form-container" action="/api" method="post" >
+      <!-- ستون فارسی -->
+      <div style="display: flex; flex-direction: row; gap: 1.5rem;">
+        <div class="form-column">
+          <h4>اطلاعات فارسی</h4>
+          <div class="form-group">
+            <label for="editTitleFa">عنوان خبر</label>
+            <input type="text" name="TitleFA" id="editTitleFa" value="<%= news.fa.Title %>">
+          </div>
+          <div class="form-group">
+            <label for="editSummaryEn">خلاصه متن  </label>
+            <textarea id="editSummaryEn" style="direction:ltr" name="BodyFA" ><%= news.fa.Body %></textarea>
+          </div>
+          <div class="form-group">:
+            <label for="editSummaryEn">کل متن </label>
+            <textarea id="editSummaryEn" style="direction:ltr" name="TextFullFA" ><%= news.fa.TooMuchBody %></textarea>
+          </div>
+          <div class="form-group">
+            <label for="editDateFa">تاریخ</label>
+            <input type="text" id="editDateFa" name="DateFA" value="<%= news.fa.Date %>">
+          </div>
+          <div class="form-group">
+            <label for="editCountryFa">کشور 1</label>
+            <input type="text" id="editCountryFa" name="CountryFA1" value="<%= news.fa.Country %>">
+          </div>
+          <div class="form-group">
+            <label for="editCountryFa">کشور 2</label>
+            <input type="text" id="editCountryFa" name="CountryFA2" placeholder="در صورت نبودن خالی بزارید" >
+          </div>
+          <div class="form-group">
+            <label for="editCountryFa">کشور 3</label>
+            <input type="text" id="editCountryFa" name="CountryFA3" placeholder="در صورت نبودن خالی بزارید">
+          </div>
+          <div class="form-group">
+            <label for="editSubjectFa">موضوع</label>
+            <input type="text" id="editSubjectFa" name="SubjectFA3" value="<%= news.fa.Subject %>">
+          </div>
+        </div>
+
+        <!-- ستون انگلیسی -->
+        <div class="form-column">
+          <h4>English Information</h4>
+          <div class="form-group">
+            <label for="editTitleEn">News Title</label>
+            <input type="text" style="direction:ltr" id="editTitleEn" name="TitleEN" value="<%= news.en.Title %>">
+          </div>
+          <div class="form-group">:
+            <label for="editSummaryEn">NewsBody </label>
+            <textarea id="editSummaryEn" style="direction:ltr" name="BodyEN" ><%= news.en.Body %></textarea>
+          </div>
+          <div class="form-group">:
+            <label for="editSummaryEn">NewsBody </label>
+            <textarea id="editSummaryEn" style="direction:ltr" name="TextFullEN" ><%= news.en.TooMuchBody %></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="editDateEn">Date</label>
+            <input type="text" id="editDateEn" name="DateEN" value="<%= news.en.Date %>">
+          </div>
+          <div class="form-group">
+            <label for="editCountryEn">Country 1</label>
+            <input type="text" id="editCountryEn" name="CountryEN1" value="<%= news.en.Country %>">
+          </div>
+          <div class="form-group">
+            <label for="editCountryEn">Country 2</label>
+            <input type="text" id="editCountryEn" name="CountryEN2" placeholder="در صورت نبودن خالی بگذارید" >
+          </div>
+          <div class="form-group">
+            <label for="editCountryEn"> Country 3</label>
+            <input type="text" id="editCountryEn" name="CountryEN3" placeholder="در صورت نبودن خالی بگذارید">
+          </div>
+          <div class="form-group">
+            <label for="editSubjectEn">Subject</label>
+            <input type="text" id="editSubjectEn" name="SubjectEN" value="<%= news.en.Subject %>">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="editTitleFa">امتیاز دهی به خبر</label>
+        <input type="text" name="Score" id="editTitleFa" value="">
+      </div>
+
+      <input type="text" name="image" value="<%= news.image %>"hidden>
+      <input type="text" name="link" value="<%= news.link %>" hidden>
+
+
+      <!-- دکمه ذخیره -->
+      <div class="btn-container">
+        <button type="submit" style="background-color: black !important;" class="btn"> ثبت نهایی </button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // اضافه کردن SweetAlert2 برای تایید ارسال فرم
+    document.getElementById("newsForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // جلوگیری از ارسال فرم به طور پیش‌فرض
+
+      Swal.fire({
+        title: 'آیا مطمئن هستید؟',
+        text: "آیا از ثبت خبر اطمینان دارید؟",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'بله, ثبت شود',
+        cancelButtonText: 'انصراف',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+      }).then((result) => {
+        if (result.isConfirmed)
+         {
+        //   Swal.fire({
+        //     title:'ثبت شد!',
+        //     text: 'برای ذخیره سازی ارسال شد',
+        //     icon: 'success',
+        //     showConfirmButton: false,
+        //     timer : 2500,
+        // })
+          // می‌توانید فرم را اینجا ارسال کنید:
+          document.getElementById("newsForm").submit();  // اگر بخواهید فرم ارسال شود
+        }
+      });
+    });
+  </script>
+</body>
+</html>

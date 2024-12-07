@@ -1,0 +1,16 @@
+@font-face {
+    font-family: MyFont;
+    /* font-style: normal;
+      font-weight: normal; */
+    src: url("../fonts/eot/IRANSansWeb(FaNum).eot");
+    src: url("../fonts/eot/IRANSansWeb(FaNum).eot?#iefix")
+        format("embedded-opentype"),
+      url("../fonts/woff2/IRANSansWeb(FaNum).woff2") format("woff2"),
+      url("../fonts/woff/IRANSansWeb(FaNum).woff") format("woff"),
+      url("../fonts/ttf/IRANSansWeb(FaNum).ttf") format("truetype");
+  }
+body{
+    font-family: MyFont !important;
+    background-color:black !important;
+    color: white !important;
+}
