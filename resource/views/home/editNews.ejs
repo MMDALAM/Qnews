@@ -135,27 +135,15 @@
           </div>
           <div class="form-group">
             <label for="editSummaryEn">خلاصه متن  </label>
-            <textarea id="editSummaryEn" style="direction:ltr" name="BodyFA" ><%= news.fa.Body %></textarea>
+            <textarea id="editSummaryEn" style="direction:rtl" name="BodyFA" ><%= news.fa.Body %></textarea>
           </div>
           <div class="form-group">:
             <label for="editSummaryEn">کل متن </label>
-            <textarea id="editSummaryEn" style="direction:ltr" name="TextFullFA" ><%= news.fa.TooMuchBody %></textarea>
+            <textarea id="editSummaryEn" style="direction:rtl" name="TextFullFA" ><%= news.fa.TooMuchBody %></textarea>
           </div>
           <div class="form-group">
             <label for="editDateFa">تاریخ</label>
             <input type="text" id="editDateFa" name="DateFA" value="<%= news.fa.Date %>">
-          </div>
-          <div class="form-group">
-            <label for="editCountryFa">کشور 1</label>
-            <input type="text" id="editCountryFa" name="CountryFA1" value="<%= news.fa.Country %>">
-          </div>
-          <div class="form-group">
-            <label for="editCountryFa">کشور 2</label>
-            <input type="text" id="editCountryFa" name="CountryFA2" placeholder="در صورت نبودن خالی بزارید" >
-          </div>
-          <div class="form-group">
-            <label for="editCountryFa">کشور 3</label>
-            <input type="text" id="editCountryFa" name="CountryFA3" placeholder="در صورت نبودن خالی بزارید">
           </div>
           <div class="form-group">
             <label for="editSubjectFa">موضوع</label>
@@ -184,18 +172,6 @@
             <input type="text" id="editDateEn" name="DateEN" value="<%= news.en.Date %>">
           </div>
           <div class="form-group">
-            <label for="editCountryEn">Country 1</label>
-            <input type="text" id="editCountryEn" name="CountryEN1" value="<%= news.en.Country %>">
-          </div>
-          <div class="form-group">
-            <label for="editCountryEn">Country 2</label>
-            <input type="text" id="editCountryEn" name="CountryEN2" placeholder="در صورت نبودن خالی بگذارید" >
-          </div>
-          <div class="form-group">
-            <label for="editCountryEn"> Country 3</label>
-            <input type="text" id="editCountryEn" name="CountryEN3" placeholder="در صورت نبودن خالی بگذارید">
-          </div>
-          <div class="form-group">
             <label for="editSubjectEn">Subject</label>
             <input type="text" id="editSubjectEn" name="SubjectEN" value="<%= news.en.Subject %>">
           </div>
@@ -205,6 +181,35 @@
       <div class="form-group">
         <label for="editTitleFa">امتیاز دهی به خبر</label>
         <input type="text" name="Score" id="editTitleFa" value="">
+      </div>
+      <label style="color: black;" >لطفا کشور ها را انتخار کنید</label>
+      <label style="color: black;"> AI Country : <%= news.en.Country %>   </label>
+      <div class="form-group">
+        <label for="editCountryEn">Country 1*</label>
+        <select name="Country1" id="editCountryEn" style="width: 20rem;">
+          <option selected disabled >کشور را انتخاب کنید </option>
+          <% countries.data.forEach(country => { %>
+            <option value="<%= country.name %>"><%= country.name %></option>
+          <% }); %>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="editCountryEn">Country 2</label>
+        <select name="Country2" id="editCountryEn" style="width: 22rem;">
+          <option selected disabled > لطفا فقط در صورت نیاز انتخاب شود</option>
+          <% countries.data.forEach(country => { %>
+            <option value="<%= country.name %>"><%= country.name %></option>
+          <% }); %>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="editCountryEn">Country 3</label>
+        <select name="Country3" style="width: 22rem;">
+          <option selected disabled > لطفا فقط در صورت نیاز انتخاب شود</option>
+          <% countries.data.forEach(country => { %>
+            <option value="<%= country.name %>"><%= country.name %></option>
+          <% }); %>
+        </select>
       </div>
 
       <input type="text" name="image" value="<%= news.image %>"hidden>

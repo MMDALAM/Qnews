@@ -1,13 +1,6 @@
 const fs = require('fs');
 const axios = require('axios');
 const cheerio = require('cheerio');
-const date = new Date();
-date.setDate(date.getDate() - 1);
-const year = date.getFullYear();
-const month = date.getMonth() + 1;
-const day = date.getDate();
-const path = require('path');
-const createError = require('http-errors');
 const randomstring = require('randomstring');
 const { newsModel } = require('../models/news');
 const baseUrl = 'https://thequantuminsider.com/category/daily/';
@@ -36,7 +29,7 @@ async function sendToChatGPT(message) {
   }
 }
 
-async function processNews(url) {
+async function processNews(url, dataFull) {
   const img = await getImg(url);
 
   const message = `
@@ -68,6 +61,7 @@ async function processNews(url) {
 
   const result = await sendToChatGPT(message);
   let randomstrings = randomstring.generate(7);
+
   const $ = result.replace(/```/g, '');
   const news = $.replace(/json/g, '');
 
@@ -79,7 +73,7 @@ async function processNews(url) {
     slug: randomstrings,
     link: data.link,
     image: data.Image,
-    date: `${year}/${month}/${day < 10 ? `0${day}` : day}`,
+    date: dataFull,
     en: data.en,
     fa: data.fa,
   });
@@ -88,7 +82,7 @@ async function processNews(url) {
   return news;
 }
 
-async function sendLinkNews(link, res) {
+async function sendLinkNews(link, res, dataFull) {
   const links = await link;
 
   if (!links.length) return res.redirect('/bot/noting');
@@ -96,7 +90,7 @@ async function sendLinkNews(link, res) {
   let i = 0;
   function printLink() {
     if (i < links.length) {
-      processNews(links[i]);
+      processNews(links[i], dataFull);
       console.log(links[i]);
       i++;
       setTimeout(printLink, 10000);
@@ -121,7 +115,7 @@ async function getImg(url) {
   }
 }
 
-async function fetchArticles() {
+async function fetchArticles(dataFull) {
   try {
     const response = await axios.get(baseUrl);
     const html = cheerio.load(response.data);
@@ -129,12 +123,10 @@ async function fetchArticles() {
 
     html('a').each((index, element) => {
       const link = html(element).attr('href');
-      if (link && link.includes(`/${year}/${month}/${day < 10 ? `0${day}` : day}`)) {
+      if (link && link.includes(dataFull)) {
         articleLinksSet.add(link);
       }
     });
-
-    console.log(`/${year}/${month}/${day}`);
 
     const articleLinks = Array.from(articleLinksSet);
 
