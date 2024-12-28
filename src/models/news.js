@@ -7,14 +7,15 @@ const newsSchema = new mongoose.Schema(
     image: { type: String },
     slug: { type: String },
     date: { type: String },
-    Score: { type: Number, default: 0 },
+    score: { type: Number, default: 0 },
+    latlng: [{ type: String }],
+    country: [{ type: String }],
     en: {
       Title: { type: String },
       Body: { type: String },
       TooMuchBody: { type: String },
       Subject: { type: String },
       Date: { type: String },
-      Country: { type: String },
     },
     fa: {
       Title: { type: String },
@@ -22,7 +23,6 @@ const newsSchema = new mongoose.Schema(
       TooMuchBody: { type: String },
       Subject: { type: String },
       Date: { type: String },
-      Country: { type: String },
     },
   },
   { timestamps: true }

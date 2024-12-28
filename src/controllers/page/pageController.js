@@ -58,27 +58,51 @@ exports.editNews = async (req, res, next) => {
 
 exports.api = async (req, res, next) => {
   try {
+    const country = await axios.get('https://api.psiket.com/v1/botQnewsCountri', {
+      headers: {
+        'x-token-manager':
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJoYXNoSWRBdXRoIjoiMmIxODM1YWI5ZmQ3MGQ1NTk1ZmFhNTJkMGM1YjBjMGUiLCJpYXQiOjE3MjgzODMyMDN9.VTsHS0NKAzkv6YvSSRnzBb7GVOUh9RlBb2Ha8X_Zmvo',
+        'Content-Type': 'application/json',
+      },
+    });
+    const countries = country.data;
+
+    const countryNames = [req.body.Country1, req.body.Country2, req.body.Country3];
+
+    let countrys = [];
+    let latlng = [];
+
+    countryNames
+      .filter((name) => name)
+      .forEach((name) => {
+        const foundCountry = countries.data.find((country) => country.name === name);
+        if (foundCountry) {
+          countrys.push(foundCountry.name);
+          latlng.push(foundCountry.latlng);
+        }
+      });
+
     let en = {};
     en.TitleEN = req.body.TitleEN;
-    en.SummaryEN = req.body.SummaryEN;
-    en.BodyEN = req.body.TooMuchBodyEN;
+    en.BodyEN = req.body.BodyEN;
+    en.TextFullEN = req.body.TextFullEN;
     en.DateEN = req.body.DateEN;
-    en.CountriesEN = req.body.CountryEN;
     en.SubjectEN = req.body.SubjectEN;
 
     let fa = {};
     fa.TitleFA = req.body.TitleFA;
-    en.SummaryFA = req.body.SummaryFA;
-    en.BodyFA = req.body.TooMuchBodyFA;
+    fa.BodyFA = req.body.BodyFA;
+    fa.TextFullFA = req.body.TextFullFA;
     fa.DateFA = req.body.DateFA;
-    fa.CountryFA = req.body.CountryFA;
     fa.SubjectFA = req.body.SubjectFA;
 
     const data = {
       url: req.body.link,
       img: req.body.image,
-      Score: req.body.Score,
+      score: req.body.Score,
       date: req.body.DateEN,
+      country: countrys,
+      latlng: latlng,
       en,
       fa,
     };
